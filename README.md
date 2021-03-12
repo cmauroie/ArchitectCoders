@@ -6,8 +6,7 @@ Clean arquitecture for projects Android. :)
 
 Movie app (Project last)
 
-Design of the App
+Current design of the App
 
-
-##Presentation pattern 
-MVVM 
+##Presentation pattern
+MVVM
