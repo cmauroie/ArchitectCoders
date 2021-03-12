@@ -1,5 +1,8 @@
 # ArchitectCoders
-Proyecto de curso
+Movie app - Project last
+
+Design of the App
+
 
 ##Presentation pattern 
 MVVM 
