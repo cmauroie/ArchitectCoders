@@ -2,4 +2,4 @@
 Proyecto de curso
 
 ## Resumen
-Clean arquitecture para proyectos Android. :)
+Clean arquitecture for projects Android. :)
