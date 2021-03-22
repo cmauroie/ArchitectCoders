@@ -9,6 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/item_movie_title"
+        android:gravity="center_horizontal"
         />
+
+    <ImageView
+        android:layout_width="@dimen/movie_fragment_width"
+        android:layout_height="@dimen/movie_fragment_height"
+        android:src="@drawable/movie_logo"
+          />
 
 </LinearLayout>
