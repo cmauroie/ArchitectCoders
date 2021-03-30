@@ -1,5 +1,6 @@
 package com.developerideas.myapplication.ui
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,14 +11,14 @@ import com.developerideas.myapplication.model.Movie
 import kotlin.properties.Delegates
 
 class MoviesAdapter(private val listener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+        RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     var movies: List<Movie> by Delegates.observable(emptyList()) { _, old, new ->
         DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                old[oldItemPosition].id == new[newItemPosition].id
+                    old[oldItemPosition].id == new[newItemPosition].id
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-                old[oldItemPosition] == new[newItemPosition]
+                    old[oldItemPosition] == new[newItemPosition]
 
             override fun getOldListSize(): Int = old.size
 
@@ -43,6 +44,8 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         fun bind(movie: Movie) = with(binding) {
             movieTitle.text = movie.title
             movieCover.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}")
+            val average = movie.voteAverage / 2 //score is between 0 and 10
+            score.rating = average.toFloat()
         }
     }
 }

@@ -1,32 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="2dp"
-    android:foreground="?attr/selectableItemBackground">
+    >
 
-    <com.developerideas.myapplication.ui.common.AspectRatioImageView
-        android:id="@+id/movieCover"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:ratio="1.5"
-        android:scaleType="centerCrop"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        android:layout_margin="8dp"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/movieTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@color/colorPrimaryDark"
-        android:padding="8dp"
-        android:lines="2"
-        android:minLines="2"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"
-        tools:text="@tools:sample/lorem" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movieTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:padding="8dp"
+                    tools:text="@tools:sample/lorem" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/icon_heart_enable" />
+
+            </LinearLayout>
+
+            <com.developerideas.myapplication.ui.common.AspectRatioImageView
+                android:id="@+id/movieCover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                app:ratio="1.2"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <RatingBar
+                android:id="@+id/score"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:rating="3"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+
+                />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
