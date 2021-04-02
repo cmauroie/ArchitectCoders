@@ -1,31 +1,51 @@
-package com.developerideas.myapplication.ui
+package com.developerideas.myapplication.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.developerideas.myapplication.databinding.ActivityMainBinding
+import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.model.MoviesRepository
+import com.developerideas.myapplication.ui.DetailActivity
+import com.developerideas.myapplication.ui.MoviesAdapter
 import com.developerideas.myapplication.ui.common.CoroutineScopeActivity
+import com.developerideas.myapplication.ui.startActivity
 import kotlinx.coroutines.launch
 
-class MainActivity : CoroutineScopeActivity() {
+class MainActivity : CoroutineScopeActivity(), MainPresenter.View {
 
-    private val moviesRepository: MoviesRepository by lazy { MoviesRepository(this) }
-
-    private val adapter = MoviesAdapter {
-        startActivity<DetailActivity> {
-            putExtra(DetailActivity.MOVIE, it)
-        }
-    }
+    private val presenter by lazy { MainPresenter(MoviesRepository(this)) }
+    private val adapter = MoviesAdapter { presenter.onMovieClicked(it) }
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            setContentView(root)
+            presenter.onCreate(this@MainActivity)
+            recycler.adapter = adapter
+        }
+    }
 
-        binding.recycler.adapter = adapter
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
 
-        launch {
-            adapter.movies = moviesRepository.findPopularMovies().results
+    override fun showProgress() {
+        binding.progress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        binding.progress.visibility = View.GONE
+    }
+
+    override fun updateData(movies: List<Movie>) {
+        adapter.movies = movies
+    }
+
+    override fun navigateTo(movie: Movie) {
+        startActivity<DetailActivity> {
+            putExtra(DetailActivity.MOVIE, movie)
         }
     }
 }
