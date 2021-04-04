@@ -48,14 +48,15 @@
                     android:layout_width="60dp"
                     android:layout_height="50dp"
                     android:layout_weight="2"
-                    android:src="@drawable/icon_heart_enable" />
+                    android:src="@drawable/icon_heart_enable"
+                    tools:ignore="ContentDescription" />
 
             </LinearLayout>
 
             <com.developerideas.myapplication.ui.common.AspectRatioImageView
                 android:id="@+id/movieCover"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 app:ratio="1.2"
