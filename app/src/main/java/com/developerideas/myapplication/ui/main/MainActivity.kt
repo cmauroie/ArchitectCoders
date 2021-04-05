@@ -5,7 +5,7 @@ import android.view.View
 import com.developerideas.myapplication.databinding.ActivityMainBinding
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.model.MoviesRepository
-import com.developerideas.myapplication.ui.DetailActivity
+import com.developerideas.myapplication.ui.detail.DetailActivity
 import com.developerideas.myapplication.ui.common.CoroutineScopeActivity
 import com.developerideas.myapplication.ui.startActivity
 
