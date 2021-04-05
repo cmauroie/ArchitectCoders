@@ -1,10 +1,10 @@
 package com.developerideas.myapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.developerideas.myapplication.databinding.ActivityMainBinding
 import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.common.CoroutineScopeActivity
+import com.developerideas.myapplication.ui.detail.DetailActivity
 import kotlinx.coroutines.launch
 
 class MainActivity : CoroutineScopeActivity() {
