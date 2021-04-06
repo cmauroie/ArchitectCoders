@@ -12,4 +12,18 @@ Movie app (Project last)
 
 
 ## Presentation pattern
+
+### release v.1.0.0 
+
+MVC
+
+### release v.1.1.0 
+
+MVP
+
+The app has two activities, one to show a list of available movies at https://developers.themoviedb.org/3 and the second allows you to see the details of the selected movie, each activity has its own presenter layer and presentation interface.
+
+
+### release v.1.2.0 
+
 MVVM
