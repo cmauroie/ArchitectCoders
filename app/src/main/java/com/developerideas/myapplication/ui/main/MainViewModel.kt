@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.model.MoviesRepository
+import com.developerideas.myapplication.ui.common.Event
 import com.developerideas.myapplication.ui.common.Scope
 import kotlinx.coroutines.launch
 
@@ -18,10 +19,12 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
             return _model
         }
 
+    private val _navigation = MutableLiveData<Event<Movie>>()
+    val navigation: LiveData<Event<Movie>> get() = _navigation
+
     sealed class UiModel {
         object Loading : UiModel()
         class Content(val movies: List<Movie>) : UiModel()
-        class Navigation(val movie: Movie) : UiModel()
         object RequestLocationPermission : UiModel()
     }
 
@@ -44,7 +47,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
     }
 
     fun onMovieClicked(movie: Movie) {
-        _model.value = UiModel.Navigation(movie)
+        _navigation.value = Event(movie)
     }
 
     override fun onCleared() {
