@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.developerideas.myapplication.databinding.ActivityDetailBinding
 import com.developerideas.myapplication.model.Movie
-import com.developerideas.myapplication.ui.loadUrl
+import com.developerideas.myapplication.ui.common.loadUrl
 
 class DetailActivity : AppCompatActivity(), DetailPresenter.View {
     companion object {
