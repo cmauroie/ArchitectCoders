@@ -2,16 +2,18 @@ package com.developerideas.myapplication.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.databinding.ActivityDetailBinding
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.ui.loadUrl
 
-class DetailActivity : AppCompatActivity(), DetailPresenter.View {
+class DetailActivity : AppCompatActivity() {
     companion object {
         const val MOVIE = "DetailActivity:movie"
     }
 
-    private val presenter = DetailPresenter()
+    private lateinit var viewModel: DetailViewModel
     private lateinit var binding: ActivityDetailBinding
 
 
@@ -19,22 +21,22 @@ class DetailActivity : AppCompatActivity(), DetailPresenter.View {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val movie: Movie = intent.getParcelableExtra(MOVIE)
+                ?: throw (IllegalStateException("Movie not found"))
 
-        intent.getParcelableExtra<Movie>(MOVIE)?.let { presenter.onCreate(view = this, movie = it) }
+        viewModel = ViewModelProvider(
+                this,
+                DetailViewModelFactory(movie)
+        ).get(DetailViewModel::class.java)
+
+        viewModel.model.observe(this, Observer(::updateUi))
     }
 
-    override fun updateUI(movie: Movie) {
-        with(movie) {
-            binding.movieDetailToolbar.title = title
-            val background = backdropPath ?: posterPath
-            binding.movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780$background")
-            binding.movieDetailSummary.text = overview
-            binding.movieDetailInfo.setMovie(this)
-        }
-    }
-
-    override fun onDestroy() {
-        presenter.onDestroy()
-        super.onDestroy()
+    private fun updateUi(model: DetailViewModel.UiModel) = with(binding) {
+        val movie = model.movie
+        movieDetailToolbar.title = movie.title
+        movieDetailImage.loadUrl("https://image.tmdb.org/t/p/w780${movie.backdropPath}")
+        movieDetailSummary.text = movie.overview
+        movieDetailInfo.setMovie(movie)
     }
 }
