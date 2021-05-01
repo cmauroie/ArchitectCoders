@@ -1,4 +1,4 @@
-package com.developerideas.myapplication.ui
+package com.developerideas.myapplication.ui.common
 
 import android.app.Activity
 import android.content.Context
@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,14 +25,14 @@ fun Context.toast(message: String) {
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): View =
-    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+        LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 fun ImageView.loadUrl(url: String) {
     Glide.with(context).load(url).into(this)
 }
 
 inline fun <reified T : Activity> Context.intentFor(body: Intent.() -> Unit): Intent =
-    Intent(this, T::class.java).apply(body)
+        Intent(this, T::class.java).apply(body)
 
 inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit) {
     startActivity(intentFor<T>(body))
@@ -58,3 +62,12 @@ fun <T : ViewDataBinding> ViewGroup.bindingInflate(
     attachToRoot: Boolean = true
 ): T =
     DataBindingUtil.inflate(LayoutInflater.from(context), layoutRes, this, attachToRoot)
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
+    val vmFactory = object : ViewModelProvider.Factory {
+        override fun <U : ViewModel?> create(modelClass: Class<U>): U = factory() as U
+    }
+
+    return ViewModelProvider(this, vmFactory).get()
+}

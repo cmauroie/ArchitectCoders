@@ -21,10 +21,7 @@ class DetailActivity : AppCompatActivity() {
         val movie: Movie = intent.getParcelableExtra(MOVIE)
             ?: throw (IllegalStateException("Movie not found"))
 
-        viewModel = ViewModelProvider(
-            this,
-            DetailViewModelFactory(movie)
-        ).get(DetailViewModel::class.java)
+        viewModel = getViewModel { DetailViewModel(movie) }
 
         val binding: ActivityDetailBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_detail)

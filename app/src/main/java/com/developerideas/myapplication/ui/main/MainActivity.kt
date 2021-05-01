@@ -10,8 +10,11 @@ import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityMainBinding
 import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.PermissionRequester
+import com.developerideas.myapplication.ui.common.getViewModel
 import com.developerideas.myapplication.ui.detail.DetailActivity
 import com.developerideas.myapplication.ui.startActivity
+import com.developerideas.myapplication.ui.main.MainViewModel.UiModel
+import com.developerideas.myapplication.ui.common.startActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,10 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            this,
-            MainViewModelFactory(MoviesRepository(application))
-        )[MainViewModel::class.java]
+        viewModel = getViewModel { MainViewModel(MoviesRepository(application)) }
 
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
