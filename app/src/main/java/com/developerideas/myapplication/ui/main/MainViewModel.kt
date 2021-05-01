@@ -56,9 +56,3 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
     }
 
 }
-
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val moviesRepository: MoviesRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        MainViewModel(moviesRepository) as T
-}

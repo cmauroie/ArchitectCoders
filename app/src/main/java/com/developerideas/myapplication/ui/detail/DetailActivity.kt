@@ -6,7 +6,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.databinding.ActivityDetailBinding
 import com.developerideas.myapplication.model.Movie
-import com.developerideas.myapplication.ui.loadUrl
+import com.developerideas.myapplication.ui.common.getViewModel
+import com.developerideas.myapplication.ui.common.loadUrl
 
 class DetailActivity : AppCompatActivity() {
     companion object {
@@ -16,7 +17,6 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var viewModel: DetailViewModel
     private lateinit var binding: ActivityDetailBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -24,7 +24,9 @@ class DetailActivity : AppCompatActivity() {
         val movie: Movie = intent.getParcelableExtra(MOVIE)
                 ?: throw (IllegalStateException("Movie not found"))
 
-        viewModel = ViewModelProvider(
+        viewModel = getViewModel { DetailViewModel(movie) }
+
+                ViewModelProvider(
                 this,
                 DetailViewModelFactory(movie)
         ).get(DetailViewModel::class.java)

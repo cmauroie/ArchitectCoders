@@ -2,15 +2,13 @@ package com.developerideas.myapplication.ui.main
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ViewMovieBinding
 import com.developerideas.myapplication.model.Movie
-import com.developerideas.myapplication.ui.basicDiffUtil
-import com.developerideas.myapplication.ui.inflate
-import com.developerideas.myapplication.ui.loadUrl
-import kotlin.properties.Delegates
+import com.developerideas.myapplication.ui.common.basicDiffUtil
+import com.developerideas.myapplication.ui.common.inflate
+import com.developerideas.myapplication.ui.common.loadUrl
 
 class MoviesAdapter(private val listener: (Movie) -> Unit) :
         RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
