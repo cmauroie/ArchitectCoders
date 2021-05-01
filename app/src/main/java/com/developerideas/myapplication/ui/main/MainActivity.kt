@@ -2,42 +2,39 @@ package com.developerideas.myapplication.ui.main
 
 import android.Manifest
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityMainBinding
 import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.PermissionRequester
 import com.developerideas.myapplication.ui.detail.DetailActivity
-import com.developerideas.myapplication.ui.main.MainViewModel.UiModel
 import com.developerideas.myapplication.ui.startActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MoviesAdapter
-    private lateinit var binding: ActivityMainBinding
-
-    private val coarsePermissionRequester = PermissionRequester(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+    private val coarsePermissionRequester =
+        PermissionRequester(this, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         viewModel = ViewModelProvider(
-                this,
-                MainViewModelFactory(MoviesRepository(application))
+            this,
+            MainViewModelFactory(MoviesRepository(application))
         )[MainViewModel::class.java]
 
-        adapter = MoviesAdapter {
-            viewModel.onMovieClicked(it)
-        }
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = this
 
+        adapter = MoviesAdapter(viewModel::onMovieClicked)
         binding.recycler.adapter = adapter
-
-        viewModel.model.observe(this, Observer(::updateUi))
 
         viewModel.navigation.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
@@ -46,9 +43,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        viewModel.requestLocationPermission.observe(this, Observer {
+            coarsePermissionRequester.request {
+                viewModel.onCoarsePermissionRequested()
+            }
+        })
     }
 
-    private fun updateUi(model: UiModel) {
+    /*private fun updateUi(model: UiModel) {
         if (model != UiModel.Loading) binding.progress.visibility = View.GONE
 
         when (model) {
@@ -58,6 +61,6 @@ class MainActivity : AppCompatActivity() {
                 viewModel.onCoarsePermissionRequester()
             }
         }
-    }
+    }*/
 
 }

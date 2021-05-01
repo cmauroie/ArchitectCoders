@@ -7,42 +7,37 @@ import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.common.Event
-import com.developerideas.myapplication.ui.common.Scope
+import com.developerideas.myapplication.ui.common.ScopedViewModel
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(), Scope by Scope.Impl() {
+class MainViewModel(private val moviesRepository: MoviesRepository) : ScopedViewModel() {
 
-    private val _model = MutableLiveData<UiModel>()
-    val model: LiveData<UiModel>
-        get() {
-            if (_model.value == null) refresh()
-            return _model
-        }
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>> get() = _movies
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
 
     private val _navigation = MutableLiveData<Event<Movie>>()
     val navigation: LiveData<Event<Movie>> get() = _navigation
 
-    sealed class UiModel {
-        object Loading : UiModel()
-        class Content(val movies: List<Movie>) : UiModel()
-        object RequestLocationPermission : UiModel()
-    }
+    private val _requestLocationPermission = MutableLiveData<Event<Unit>>()
+    val requestLocationPermission: LiveData<Event<Unit>> get() = _requestLocationPermission
 
     init {
         initScope()
+        refresh()
     }
 
     private fun refresh() {
-        launch {
-            _model.value = UiModel.Loading
-            _model.value = UiModel.Content(moviesRepository.findPopularMovies().results)
-        }
+        _requestLocationPermission.value = Event(Unit)
     }
 
-    fun onCoarsePermissionRequester() {
+    fun onCoarsePermissionRequested() {
         launch {
-            _model.value = UiModel.Loading
-            _model.value = UiModel.Content(moviesRepository.findPopularMovies().results)
+            _loading.value = true
+            _movies.value = moviesRepository.findPopularMovies().results
+            _loading.value = false
         }
     }
 
@@ -54,11 +49,11 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
         destroyScope()
         super.onCleared()
     }
-
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val moviesRepository: MoviesRepository) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val moviesRepository: MoviesRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         MainViewModel(moviesRepository) as T
 }
