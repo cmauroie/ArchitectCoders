@@ -1,16 +1,13 @@
 package com.developerideas.myapplication.ui.detail
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityDetailBinding
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.ui.common.getViewModel
-import com.developerideas.myapplication.ui.favorite.FavoriteActivity
 
 class DetailActivity : AppCompatActivity() {
     companion object {
@@ -42,19 +39,4 @@ class DetailActivity : AppCompatActivity() {
         movieDetailSummary.text = movie.overview
         movieDetailInfo.setMovie(movie)
     }*/
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
-
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.itemFavorite -> {
-                val intent = Intent(this, FavoriteActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
 }
