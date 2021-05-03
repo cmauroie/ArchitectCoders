@@ -1,11 +1,16 @@
 package com.developerideas.myapplication.ui.main
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityMainBinding
 import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.PermissionRequester
@@ -13,6 +18,7 @@ import com.developerideas.myapplication.ui.common.getViewModel
 import com.developerideas.myapplication.ui.detail.DetailActivity
 import com.developerideas.myapplication.ui.main.MainViewModel.UiModel
 import com.developerideas.myapplication.ui.common.startActivity
+import com.developerideas.myapplication.ui.favorite.FavoriteActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,6 +62,22 @@ class MainActivity : AppCompatActivity() {
                 viewModel.onCoarsePermissionRequester()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.itemFavorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 }
