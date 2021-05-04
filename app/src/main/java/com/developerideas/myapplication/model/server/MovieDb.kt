@@ -1,4 +1,4 @@
-package com.developerideas.myapplication.model
+package com.developerideas.myapplication.model.server
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

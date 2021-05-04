@@ -2,7 +2,7 @@ package com.developerideas.myapplication.ui.main
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.database.Movie
 
 @BindingAdapter("items")
 fun RecyclerView.setItems(movies: List<Movie>?) {
