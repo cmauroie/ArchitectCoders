@@ -2,9 +2,11 @@ package com.developerideas.myapplication.ui.favorite
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.RecyclerView
 import com.developerideas.myapplication.R
-import com.developerideas.myapplication.databinding.ViewMovieBinding
+import com.developerideas.myapplication.databinding.ViewFavoriteBinding
 import com.developerideas.myapplication.model.Movie
 import com.developerideas.myapplication.ui.common.basicDiffUtil
 import com.developerideas.myapplication.ui.common.inflate
@@ -18,7 +20,7 @@ class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = parent.inflate(R.layout.view_movie, false)
+        val view = parent.inflate(R.layout.view_favorite, false)
         return ViewHolder(view)
     }
 
@@ -33,12 +35,28 @@ class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter
      * This Holder is copied from MoviesAdapter
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ViewMovieBinding.bind(view)
+        private val binding = ViewFavoriteBinding.bind(view)
         fun bind(movie: Movie) = with(binding) {
-            movieTitle.text = movie.title
+            movieTitle.text =buildSpannedString {
+                with(movie) {
+                    bold { append("Original language: ") }
+                    appendLine(originalLanguage)
+
+                    bold { append("Original title: ") }
+                    appendLine(originalTitle)
+
+                    bold { append("Release date: ") }
+                    appendLine(releaseDate)
+
+                    bold { append("Popularity: ") }
+                    appendLine(popularity.toString())
+
+                    bold { append("Vote Average: ") }
+                    append(voteAverage.toString())
+                }
+            }
             movieCover.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}")
-            val average = movie.voteAverage / 2 //score is between 0 and 10
-            score.rating = average.toFloat()
+
         }
     }
 
