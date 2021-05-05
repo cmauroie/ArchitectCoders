@@ -5,10 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.ui.common.ScopedViewModel
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
+class DetailViewModel(private val movieId: Int, private val moviesRepository: MoviesRepository) : ScopedViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> get() = _movie
@@ -27,7 +28,7 @@ class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
 
     init {
         launch {
-            _movie.value = movieIntent
+            _movie.value = moviesRepository.findById(movieId)
             updateUi()
         }
     }
@@ -53,11 +54,4 @@ class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
             _favorite.value = true //Todo update value true by favorite field entity
         }
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val movie: Movie) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        DetailViewModel(movie) as T
 }

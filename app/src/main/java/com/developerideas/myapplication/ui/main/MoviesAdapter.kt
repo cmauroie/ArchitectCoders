@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ViewMovieBinding
 import com.developerideas.myapplication.model.Movie
-import com.developerideas.myapplication.ui.basicDiffUtil
-import com.developerideas.myapplication.ui.bindingInflate
+import com.developerideas.myapplication.ui.common.basicDiffUtil
+import com.developerideas.myapplication.ui.common.bindingInflate
 
 class MoviesAdapter(private val listener: (Movie) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {

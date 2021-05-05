@@ -18,8 +18,8 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ScopedView
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _navigation = MutableLiveData<Event<Movie>>()
-    val navigation: LiveData<Event<Movie>> get() = _navigation
+    private val _navigateToMovie = MutableLiveData<Event<Int>>()
+    val navigateToMovie: LiveData<Event<Int>> get() = _navigateToMovie
 
     private val _requestLocationPermission = MutableLiveData<Event<Unit>>()
     val requestLocationPermission: LiveData<Event<Unit>> get() = _requestLocationPermission
@@ -42,7 +42,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ScopedView
     }
 
     fun onMovieClicked(movie: Movie) {
-        _navigation.value = Event(movie)
+        _navigateToMovie.value = Event(movie.id)
     }
 
     override fun onCleared() {

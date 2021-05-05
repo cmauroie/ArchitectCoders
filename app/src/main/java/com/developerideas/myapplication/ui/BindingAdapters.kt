@@ -3,6 +3,7 @@ package com.developerideas.myapplication.ui
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.developerideas.myapplication.ui.common.loadUrl
 
 @BindingAdapter("url")
 fun ImageView.bindUrl(url: String?) {
