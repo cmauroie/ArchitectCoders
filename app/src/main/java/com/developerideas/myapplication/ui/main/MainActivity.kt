@@ -5,15 +5,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityMainBinding
-import com.developerideas.myapplication.model.MoviesRepository
+import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.PermissionRequester
+import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.getViewModel
 import com.developerideas.myapplication.ui.detail.DetailActivity
-import com.developerideas.myapplication.ui.startActivity
-import com.developerideas.myapplication.ui.main.MainViewModel.UiModel
 import com.developerideas.myapplication.ui.common.startActivity
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel { MainViewModel(MoviesRepository(application)) }
+        viewModel = getViewModel { MainViewModel(MoviesRepository(app)) }
 
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -36,10 +34,10 @@ class MainActivity : AppCompatActivity() {
         adapter = MoviesAdapter(viewModel::onMovieClicked)
         binding.recycler.adapter = adapter
 
-        viewModel.navigation.observe(this, Observer { event ->
+        viewModel.navigation.observe(this, { event ->
             event.getContentIfNotHandled()?.let {
                 startActivity<DetailActivity> {
-                    putExtra(DetailActivity.MOVIE, it)
+                    putExtra(DetailActivity.MOVIE, it.id)
                 }
             }
         })

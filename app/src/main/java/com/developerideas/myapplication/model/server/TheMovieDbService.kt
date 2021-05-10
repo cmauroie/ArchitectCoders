@@ -1,4 +1,4 @@
-package com.developerideas.myapplication.model
+package com.developerideas.myapplication.model.server
 
 import retrofit2.http.GET
 import retrofit2.http.Query

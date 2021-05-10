@@ -6,7 +6,7 @@
     <data>
         <variable
             name="movie"
-            type="com.developerideas.myapplication.model.Movie" />
+            type="com.developerideas.myapplication.model.database.Movie" />
         <variable
             name="average"
             type="Float" />
