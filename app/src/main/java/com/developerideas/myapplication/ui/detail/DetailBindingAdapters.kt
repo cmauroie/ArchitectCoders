@@ -6,7 +6,7 @@ import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.databinding.BindingAdapter
 import com.developerideas.myapplication.R
-import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.database.Movie
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 @BindingAdapter("movie")

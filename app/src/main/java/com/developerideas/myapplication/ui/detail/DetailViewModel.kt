@@ -2,6 +2,8 @@ package com.developerideas.myapplication.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.developerideas.myapplication.model.database.Movie
+import com.developerideas.myapplication.model.server.MoviesRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.model.Movie
@@ -36,11 +38,10 @@ class DetailViewModel(private val movieId: Int, private val moviesRepository: Mo
     fun onFavoriteClicked() {
         launch {
             movie.value?.let {
-                //Todo enable when add room db
-                /*val updatedMovie = it.copy(favorite = !it.favorite)
+                val updatedMovie = it.copy(favorite = !it.favorite)
                 _movie.value = updatedMovie
                 updateUi()
-                moviesRepository.update(updatedMovie)*/
+                moviesRepository.update(updatedMovie)
             }
         }
     }
@@ -50,8 +51,8 @@ class DetailViewModel(private val movieId: Int, private val moviesRepository: Mo
             _title.value = title
             _overview.value = overview
             _url.value =
-                "https://image.tmdb.org/t/p/w500/${backdropPath!!}"// //Todo update by value in db
-            _favorite.value = true //Todo update value true by favorite field entity
+                "https://image.tmdb.org/t/p/w500/${backdropPath}"
+            _favorite.value = favorite
         }
     }
 }

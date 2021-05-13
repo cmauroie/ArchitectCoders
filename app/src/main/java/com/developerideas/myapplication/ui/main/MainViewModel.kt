@@ -2,10 +2,8 @@ package com.developerideas.myapplication.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.developerideas.myapplication.model.Movie
-import com.developerideas.myapplication.model.MoviesRepository
+import com.developerideas.myapplication.model.database.Movie
+import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.common.Event
 import com.developerideas.myapplication.ui.common.ScopedViewModel
 import kotlinx.coroutines.launch
@@ -36,7 +34,7 @@ class MainViewModel(private val moviesRepository: MoviesRepository) : ScopedView
     fun onCoarsePermissionRequested() {
         launch {
             _loading.value = true
-            _movies.value = moviesRepository.findPopularMovies().results
+            _movies.value = moviesRepository.findPopularMovies()
             _loading.value = false
         }
     }
