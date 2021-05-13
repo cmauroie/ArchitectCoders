@@ -11,8 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentMainBinding
-import com.developerideas.myapplication.model.MoviesRepository
 import com.developerideas.myapplication.PermissionRequester
+import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.common.Event.EventObserver
 import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate

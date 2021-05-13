@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentDetailBinding
-import com.developerideas.myapplication.model.MoviesRepository
+import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
 import com.developerideas.myapplication.ui.common.getViewModel
