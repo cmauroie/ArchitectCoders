@@ -1,4 +1,4 @@
-package com.developerideas.myapplication
+package com.developerideas.myapplication.ui
 
 import android.app.Activity
 import com.karumi.dexter.Dexter
