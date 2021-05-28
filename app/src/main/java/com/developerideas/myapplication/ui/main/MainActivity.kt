@@ -1,7 +1,10 @@
 package com.developerideas.myapplication.ui.main
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -13,6 +16,7 @@ import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.getViewModel
 import com.developerideas.myapplication.ui.detail.DetailActivity
 import com.developerideas.myapplication.ui.common.startActivity
+import com.developerideas.myapplication.ui.favorite.FavoriteActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,5 +64,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }*/
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.itemFavorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
 }
