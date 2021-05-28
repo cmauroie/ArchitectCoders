@@ -18,6 +18,7 @@ import androidx.lifecycle.get
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.developerideas.myapplication.MoviesApp
 import kotlin.properties.Delegates
 
 fun Context.toast(message: String) {
@@ -71,3 +72,6 @@ inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline fac
 
     return ViewModelProvider(this, vmFactory).get()
 }
+
+val Context.app: MoviesApp
+    get() = applicationContext as MoviesApp

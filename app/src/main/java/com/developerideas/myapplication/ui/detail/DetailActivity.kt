@@ -3,10 +3,10 @@ package com.developerideas.myapplication.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ActivityDetailBinding
-import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.server.MoviesRepository
+import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.getViewModel
 
 class DetailActivity : AppCompatActivity() {
@@ -19,10 +19,9 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val movie: Movie = intent.getParcelableExtra(MOVIE)
-            ?: throw (IllegalStateException("Movie not found"))
+        val movieId: Int = intent.getIntExtra(MOVIE, -1)
 
-        viewModel = getViewModel { DetailViewModel(movie) }
+        viewModel = getViewModel { DetailViewModel(movieId, MoviesRepository(app)) }
 
         val binding: ActivityDetailBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_detail)

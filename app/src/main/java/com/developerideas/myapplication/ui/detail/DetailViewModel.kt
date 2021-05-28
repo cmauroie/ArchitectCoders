@@ -2,13 +2,12 @@ package com.developerideas.myapplication.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.database.Movie
+import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.common.ScopedViewModel
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
+class DetailViewModel(private val movieId: Int, private val moviesRepository: MoviesRepository) : ScopedViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> get() = _movie
@@ -27,7 +26,7 @@ class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
 
     init {
         launch {
-            _movie.value = movieIntent
+            _movie.value = moviesRepository.findById(movieId)
             updateUi()
         }
     }
@@ -35,11 +34,10 @@ class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
     fun onFavoriteClicked() {
         launch {
             movie.value?.let {
-                //Todo enable when add room db
-                /*val updatedMovie = it.copy(favorite = !it.favorite)
+                val updatedMovie = it.copy(favorite = !it.favorite)
                 _movie.value = updatedMovie
                 updateUi()
-                moviesRepository.update(updatedMovie)*/
+                moviesRepository.update(updatedMovie)
             }
         }
     }
@@ -49,15 +47,8 @@ class DetailViewModel(private val movieIntent: Movie) : ScopedViewModel() {
             _title.value = title
             _overview.value = overview
             _url.value =
-                "https://image.tmdb.org/t/p/w500/${backdropPath!!}"// //Todo update by value in db
-            _favorite.value = true //Todo update value true by favorite field entity
+                "https://image.tmdb.org/t/p/w500/${backdropPath}"
+            _favorite.value = favorite
         }
     }
-}
-
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val movie: Movie) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-        DetailViewModel(movie) as T
 }

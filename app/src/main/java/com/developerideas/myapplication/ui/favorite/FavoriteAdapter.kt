@@ -7,7 +7,7 @@ import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.RecyclerView
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ViewFavoriteBinding
-import com.developerideas.myapplication.model.Movie
+import com.developerideas.myapplication.model.database.Movie
 import com.developerideas.myapplication.ui.common.basicDiffUtil
 import com.developerideas.myapplication.ui.common.inflate
 import com.developerideas.myapplication.ui.common.loadUrl
