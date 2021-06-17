@@ -12,7 +12,7 @@ import com.developerideas.myapplication.ui.common.basicDiffUtil
 import com.developerideas.myapplication.ui.common.inflate
 import com.developerideas.myapplication.ui.common.loadUrl
 
-class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>()  {
+class FavoriteAdapter(private val listener: (Movie) -> Unit) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>()  {
 
     var movies: List<Movie> by basicDiffUtil(
         emptyList(),
@@ -26,7 +26,7 @@ class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = movies[position]
-        holder.bind(movie)
+        holder.bind(movie, listener)
     }
 
     override fun getItemCount(): Int = movies.size
@@ -36,7 +36,7 @@ class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ViewFavoriteBinding.bind(view)
-        fun bind(movie: Movie) = with(binding) {
+        fun bind(movie: Movie, listener: (Movie) -> Unit) = with(binding) {
             movieTitle.text =buildSpannedString {
                 with(movie) {
                     bold { append("Original language: ") }
@@ -56,7 +56,9 @@ class FavoriteAdapter(movies:List<Movie>) : RecyclerView.Adapter<FavoriteAdapter
                 }
             }
             movieCover.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}")
-
+            removeItem.setOnClickListener {
+                listener(movie)
+            }
         }
     }
 

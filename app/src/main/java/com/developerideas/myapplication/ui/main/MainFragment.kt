@@ -2,16 +2,14 @@ package com.developerideas.myapplication.ui.main
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.developerideas.myapplication.NavHostActivity
+import com.developerideas.myapplication.PermissionRequester
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentMainBinding
-import com.developerideas.myapplication.PermissionRequester
 import com.developerideas.myapplication.model.server.MoviesRepository
 import com.developerideas.myapplication.ui.common.Event.EventObserver
 import com.developerideas.myapplication.ui.common.app
@@ -36,14 +34,16 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         binding = container?.bindingInflate(R.layout.fragment_main, false)
         return binding?.root
-
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
+        (activity as NavHostActivity).setSupportActionBar(binding?.toolbar)
 
         viewModel = getViewModel { MainViewModel(MoviesRepository(app)) }
 
@@ -82,20 +82,21 @@ class MainFragment : Fragment() {
         }
     }*/
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return super.onCreateOptionsMenu(menu)
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        menu.findItem(R.id.itemFavorite).isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.itemFavorite -> {
-                val intent = Intent(this, FavoriteActivity::class.java)
-                startActivity(intent)
+                val action = MainFragmentDirections.actionMainFragmentToFavoriteFragment()
+                navController.navigate(action)
             }
         }
-
         return super.onOptionsItemSelected(item)
-    }*/
+    }
 
 }
