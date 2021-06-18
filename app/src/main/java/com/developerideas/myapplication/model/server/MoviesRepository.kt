@@ -36,6 +36,14 @@ class MoviesRepository(application: MoviesApp)  {
         db.movieDao().updateMovie(movie)
     }
 
+    suspend fun getFavorites() : List<DbMovie> = withContext(Dispatchers.IO) {
+        db.movieDao().getFavorites()
+    }
+
+    suspend fun deleteFavorite(idMovie: Int) = withContext(Dispatchers.IO) {
+        db.movieDao().deleteMovie(idMovie)
+    }
+
 }
 
 private fun ServerMovie.convertToDbMovie() = DbMovie(
