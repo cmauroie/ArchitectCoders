@@ -1,6 +1,8 @@
-package com.developerideas.data
+package com.developerideas.data.repository
 
 import com.arquitectcoders.domain.Movie
+import com.developerideas.data.source.LocalDataSource
+import com.developerideas.data.source.RemoteDataSource
 
 class MoviesRepository(
     private val localDataSource: LocalDataSource,
@@ -9,7 +11,7 @@ class MoviesRepository(
     private val apiKey: String
 ) {
 
-    fun suspendPopularMovies(): List<Movie> {
+    suspend fun getPopularMovies(): List<Movie> {
         if (localDataSource.isEmpty()) {
             val movies = remoteDataSource.getPopularMovies(apiKey, regionRepository.findLastRegion())
             localDataSource.saveMovies(movies)
@@ -17,17 +19,9 @@ class MoviesRepository(
         return localDataSource.getPopularMovies()
     }
 
+    suspend fun findById(id: Int): Movie = localDataSource.findById(id)
 
-}
+    suspend fun update(movie: Movie) = localDataSource.update(movie)
 
-interface RemoteDataSource {
-    fun getPopularMovies(apiKey: String, findLastRegion: String): List<Movie>
-
-}
-
-interface LocalDataSource {
-    fun isEmpty(): Boolean
-    fun saveMovies(movies: List<Movie>)
-    fun getPopularMovies(): List<Movie>
 
 }
