@@ -1,6 +1,6 @@
 package com.developerideas.data.source
 
-import com.arquitectcoders.domain.Movie
+import com.developerideas.domain.Movie
 
 interface LocalDataSource {
     suspend fun isEmpty(): Boolean

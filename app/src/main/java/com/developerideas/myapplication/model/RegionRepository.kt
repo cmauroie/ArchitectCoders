@@ -7,7 +7,7 @@ import android.location.Location
 
 class RegionRepository(application: Application) {
 
-    companion object {
+    /*companion object {
         private const val DEFAULT_REGION = "US"
     }
 
@@ -27,5 +27,5 @@ class RegionRepository(application: Application) {
             geocoder.getFromLocation(latitude, longitude, 1)
         }
         return addresses?.firstOrNull()?.countryCode ?: DEFAULT_REGION
-    }
+    }*/
 }

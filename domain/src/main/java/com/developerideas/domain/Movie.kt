@@ -1,11 +1,11 @@
-package com.arquitectcoders.domain
+package com.developerideas.domain
 
 data class Movie(
     val id: Int,
     val title: String,
     val overview: String,
     val releaseDate: String,
-    val posterPath: String,
+    var posterPath: String,
     val backdropPath: String,
     val originalLanguage: String,
     val originalTitle: String,

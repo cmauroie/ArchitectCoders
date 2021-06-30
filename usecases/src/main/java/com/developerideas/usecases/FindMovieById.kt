@@ -1,6 +1,6 @@
-package com.arquitectcoders.usecases
+package com.developerideas.usecases
 
-import com.arquitectcoders.domain.Movie
+import com.developerideas.domain.Movie
 import com.developerideas.data.repository.MoviesRepository
 
 class FindMovieById(private val moviesRepository: MoviesRepository) {

@@ -14,7 +14,7 @@ class MoviesRepository(application: MoviesApp)  {
     private val regionRepository = RegionRepository(application)
     private val db = application.db
 
-    suspend fun findPopularMovies(): List<DbMovie> = withContext(Dispatchers.IO) {
+    /*suspend fun findPopularMovies(): List<DbMovie> = withContext(Dispatchers.IO) {
         with(db.movieDao()) {
             if(movieCount() <= 0) {
                 val movies = MovieDb.service
@@ -26,7 +26,7 @@ class MoviesRepository(application: MoviesApp)  {
 
             getAll()
         }
-    }
+    }*/
 
     suspend fun findById(id: Int): DbMovie = withContext(Dispatchers.IO) {
         db.movieDao().findById(id)

@@ -2,9 +2,10 @@ package com.developerideas.myapplication.ui.main
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.developerideas.domain.Movie
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ViewMovieBinding
-import com.developerideas.myapplication.model.database.Movie
+
 import com.developerideas.myapplication.ui.common.basicDiffUtil
 import com.developerideas.myapplication.ui.common.bindingInflate
 
