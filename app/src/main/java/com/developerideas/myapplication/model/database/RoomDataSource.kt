@@ -22,11 +22,11 @@ class RoomDataSource(db: MovieDatabase):LocalDataSource {
         movieDao.getAll().map { it.toDomainMovie() }
     }
 
-    override suspend fun findById(id: Int): Movie {
-        TODO("Not yet implemented")
+    override suspend fun findById(id: Int): Movie = withContext(Dispatchers.IO) {
+        movieDao.findById(id).toDomainMovie()
     }
 
-    override suspend fun update(movie: Movie): Any {
-        TODO("Not yet implemented")
+    override suspend fun update(movie: Movie) {
+        withContext(Dispatchers.IO) { movieDao.updateMovie(movie.toRoomMovie()) }
     }
 }

@@ -6,12 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.developerideas.data.repository.MoviesRepository
+import com.developerideas.data.repository.RegionRepository
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentDetailBinding
-import com.developerideas.myapplication.model.server.MoviesRepository
+import com.developerideas.myapplication.model.AndroidPermissionChecker
+import com.developerideas.myapplication.model.PlayServicesLocationDataSource
+import com.developerideas.myapplication.model.database.RoomDataSource
+import com.developerideas.myapplication.model.server.TheMovieDbDataSource
 import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
 import com.developerideas.myapplication.ui.common.getViewModel
+import com.developerideas.usecases.FindMovieById
+import com.developerideas.usecases.ToggleMovieFavorite
 
 class DetailFragment : Fragment() {
 
@@ -33,7 +40,20 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = getViewModel {
-            DetailViewModel(args.id, MoviesRepository(app))
+            val moviesRepository = MoviesRepository(
+                RoomDataSource(app.db),
+                TheMovieDbDataSource(),
+                RegionRepository(
+                    PlayServicesLocationDataSource(app),
+                    AndroidPermissionChecker(app)
+                ),
+                app.getString(R.string.api_key)
+            )
+            DetailViewModel(
+                args.id,
+                FindMovieById(moviesRepository),
+                ToggleMovieFavorite(moviesRepository)
+            )
         }
 
         binding?.apply {
