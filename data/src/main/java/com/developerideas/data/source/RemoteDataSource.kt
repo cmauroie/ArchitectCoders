@@ -1,7 +1,7 @@
 package com.developerideas.data.source
 
-import com.arquitectcoders.domain.Movie
+import com.developerideas.domain.Movie
 
 interface RemoteDataSource {
-    fun getPopularMovies(apiKey: String, findLastRegion: String): List<Movie>
+    suspend fun getPopularMovies(apiKey: String, region: String): List<Movie>
 }
