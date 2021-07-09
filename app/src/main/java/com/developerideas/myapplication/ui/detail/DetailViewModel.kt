@@ -2,12 +2,16 @@ package com.developerideas.myapplication.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.developerideas.myapplication.model.database.Movie
-import com.developerideas.myapplication.model.server.MoviesRepository
+import com.developerideas.domain.Movie
 import com.developerideas.myapplication.ui.common.ScopedViewModel
+import com.developerideas.usecases.FindMovieById
+import com.developerideas.usecases.ToggleMovieFavorite
 import kotlinx.coroutines.launch
 
-class DetailViewModel(private val movieId: Int, private val moviesRepository: MoviesRepository) : ScopedViewModel() {
+class DetailViewModel(
+    private val movieId: Int, private val findMovieById: FindMovieById,
+    private val toggleMovieFavorite: ToggleMovieFavorite
+) : ScopedViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> get() = _movie
@@ -26,7 +30,7 @@ class DetailViewModel(private val movieId: Int, private val moviesRepository: Mo
 
     init {
         launch {
-            _movie.value = moviesRepository.findById(movieId)
+            _movie.value = findMovieById.invoke(movieId)
             updateUi()
         }
     }
@@ -34,10 +38,8 @@ class DetailViewModel(private val movieId: Int, private val moviesRepository: Mo
     fun onFavoriteClicked() {
         launch {
             movie.value?.let {
-                val updatedMovie = it.copy(favorite = !it.favorite)
-                _movie.value = updatedMovie
+                _movie.value = toggleMovieFavorite.invoke(it)
                 updateUi()
-                moviesRepository.update(updatedMovie)
             }
         }
     }
