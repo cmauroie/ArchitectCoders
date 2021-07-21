@@ -4,6 +4,7 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.developerideas.usecases.GetPopularMovies
@@ -24,10 +25,12 @@ import com.developerideas.myapplication.ui.common.Event.EventObserver
 import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
 import com.developerideas.myapplication.ui.common.getViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: MoviesAdapter
     private val coarsePermissionRequester by lazy {
         PermissionRequester(
@@ -53,23 +56,6 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
         (activity as NavHostActivity).setSupportActionBar(binding?.toolbar)
-
-        viewModel = getViewModel {
-            val localDataSource = RoomDataSource(app.db)
-            MainViewModel(
-                GetPopularMovies(
-                    MoviesRepository(
-                        localDataSource,
-                        TheMovieDbDataSource(),
-                        RegionRepository(
-                            PlayServicesLocationDataSource(app),
-                            AndroidPermissionChecker(app)
-                        ),
-                        app.getString(R.string.api_key)
-                    )
-                )
-            )
-        }
 
         viewModel.navigateToMovie.observe(viewLifecycleOwner, EventObserver { id ->
             val action = MainFragmentDirections.actionMainFragmentToDetailFragment(id)

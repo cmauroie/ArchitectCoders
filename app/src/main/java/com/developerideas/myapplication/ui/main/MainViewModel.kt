@@ -1,5 +1,6 @@
 package com.developerideas.myapplication.ui.main
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developerideas.domain.Movie
@@ -9,7 +10,7 @@ import com.developerideas.myapplication.ui.common.Event
 import com.developerideas.myapplication.ui.common.ScopedViewModel
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val getPopularMovies: GetPopularMovies) : ScopedViewModel() {
+class MainViewModel  @ViewModelInject constructor(private val getPopularMovies: GetPopularMovies) : ScopedViewModel() {
 
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> get() = _movies
