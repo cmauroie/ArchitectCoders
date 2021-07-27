@@ -5,12 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.developerideas.data.repository.MoviesRepository
+import com.developerideas.data.repository.RegionRepository
+import com.developerideas.domain.Movie
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentFavoriteBinding
-import com.developerideas.myapplication.model.server.MoviesRepository
+import com.developerideas.myapplication.model.AndroidPermissionChecker
+import com.developerideas.myapplication.model.PlayServicesLocationDataSource
+import com.developerideas.myapplication.model.database.RoomDataSource
+import com.developerideas.myapplication.model.server.TheMovieDbDataSource
+import com.developerideas.myapplication.ui.common.Event
+import com.developerideas.myapplication.ui.common.Event.EventObserver
 import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
 import com.developerideas.myapplication.ui.common.getViewModel
+import com.developerideas.usecases.DeleteFavoritesMovies
+import com.developerideas.usecases.GetFavoritesMovies
 
 class FavoriteFragment : Fragment() {
     private var binding: FragmentFavoriteBinding? = null
@@ -30,25 +41,50 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.toolbar?.setNavigationIcon(R.drawable.ic_back_arrow);
+        binding?.toolbar?.setNavigationIcon(R.drawable.ic_back_arrow)
         binding?.toolbar?.setNavigationOnClickListener { activity?.onBackPressed() }
 
         viewModel = getViewModel {
-            FavoriteViewModel(MoviesRepository(app))
+            val localDataSource = RoomDataSource(app.db)
+            FavoriteViewModel(
+                    GetFavoritesMovies(
+                        MoviesRepository(
+                            localDataSource,
+                            TheMovieDbDataSource(),
+                            RegionRepository(
+                                PlayServicesLocationDataSource(app),
+                                AndroidPermissionChecker(app)
+                            ),
+                            app.getString(R.string.api_key)
+                        )
+            ), DeleteFavoritesMovies(
+                    MoviesRepository(
+                        localDataSource,
+                        TheMovieDbDataSource(),
+                        RegionRepository(
+                            PlayServicesLocationDataSource(app),
+                            AndroidPermissionChecker(app)
+                        )
+                        ,app.getString(R.string.api_key)
+                    )
+                )
+            )
         }
 
         binding?.apply {
+            recycler.adapter = movieAdapter
             viewmodel = viewModel
             lifecycleOwner = this@FavoriteFragment
         }
 
-        binding?.recycler?.adapter = movieAdapter
-
-        viewModel.movie.observe(viewLifecycleOwner, {
+        viewModel.movie.observe(viewLifecycleOwner, Observer {
             movieAdapter.movies = it
             movieAdapter.notifyDataSetChanged()
         })
 
-        viewModel.loadFavoriteData()
+        viewModel.loadFavoriteItems.observe(viewLifecycleOwner, EventObserver{
+            viewModel.loadFavoriteData()
+        })
+
     }
 }

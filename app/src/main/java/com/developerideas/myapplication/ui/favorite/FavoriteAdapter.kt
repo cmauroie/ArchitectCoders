@@ -5,14 +5,17 @@ import android.view.ViewGroup
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.recyclerview.widget.RecyclerView
+import com.developerideas.domain.Movie
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.ViewFavoriteBinding
-import com.developerideas.myapplication.model.database.Movie
+import com.developerideas.myapplication.databinding.ViewMovieBinding
 import com.developerideas.myapplication.ui.common.basicDiffUtil
+import com.developerideas.myapplication.ui.common.bindingInflate
 import com.developerideas.myapplication.ui.common.inflate
 import com.developerideas.myapplication.ui.common.loadUrl
 
-class FavoriteAdapter(private val listener: (Movie) -> Unit) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>()  {
+class FavoriteAdapter(private val listener: (Movie) -> Unit) :
+    RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
     var movies: List<Movie> by basicDiffUtil(
         emptyList(),
