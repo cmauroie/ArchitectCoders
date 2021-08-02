@@ -23,5 +23,8 @@ class  MoviesRepository(
 
     suspend fun update(movie: Movie) = localDataSource.update(movie)
 
+    suspend fun getFavorites() = localDataSource.getFavoritesMovies()
+
+    suspend fun deleteFavorite(id: Int) = localDataSource.deleteFavoriteMovies(id)
 
 }

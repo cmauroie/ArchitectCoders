@@ -29,4 +29,12 @@ class RoomDataSource(db: MovieDatabase):LocalDataSource {
     override suspend fun update(movie: Movie) {
         withContext(Dispatchers.IO) { movieDao.updateMovie(movie.toRoomMovie()) }
     }
+
+    override suspend fun getFavoritesMovies(): List<Movie> = withContext(Dispatchers.IO) {
+        movieDao.getFavorites().map { it.toDomainMovie() }
+    }
+
+    override suspend fun deleteFavoriteMovies(id: Int) {
+        return withContext(Dispatchers.IO) {movieDao.deleteMovie(id)}
+    }
 }
