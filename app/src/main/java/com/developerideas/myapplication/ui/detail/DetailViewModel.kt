@@ -1,15 +1,19 @@
 package com.developerideas.myapplication.ui.detail
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.developerideas.domain.Movie
 import com.developerideas.myapplication.ui.common.ScopedViewModel
 import com.developerideas.usecases.FindMovieById
 import com.developerideas.usecases.ToggleMovieFavorite
 import kotlinx.coroutines.launch
 
-class DetailViewModel(
-    private val movieId: Int, private val findMovieById: FindMovieById,
+class DetailViewModel @ViewModelInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle,
+    private val findMovieById: FindMovieById,
     private val toggleMovieFavorite: ToggleMovieFavorite
 ) : ScopedViewModel() {
 
@@ -30,8 +34,11 @@ class DetailViewModel(
 
     init {
         launch {
-            _movie.value = findMovieById.invoke(movieId)
-            updateUi()
+            val movieId: Int? = savedStateHandle["id"]
+            movieId?.let{
+                _movie.value = findMovieById.invoke(it)
+                updateUi()
+            }
         }
     }
 

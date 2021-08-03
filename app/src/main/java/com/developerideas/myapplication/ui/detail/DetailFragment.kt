@@ -1,31 +1,28 @@
 package com.developerideas.myapplication.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.developerideas.data.repository.MoviesRepository
-import com.developerideas.data.repository.RegionRepository
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentDetailBinding
-import com.developerideas.myapplication.model.AndroidPermissionChecker
-import com.developerideas.myapplication.model.PlayServicesLocationDataSource
-import com.developerideas.myapplication.model.database.RoomDataSource
-import com.developerideas.myapplication.model.server.TheMovieDbDataSource
-import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
-import com.developerideas.myapplication.ui.common.getViewModel
-import com.developerideas.usecases.FindMovieById
-import com.developerideas.usecases.ToggleMovieFavorite
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
 
-
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by viewModels()
     private var binding: FragmentDetailBinding? = null
     private val args: DetailFragmentArgs by navArgs()
+
+    companion object {
+        const val MOVIE = "id"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +36,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModel = getViewModel {
+        /*viewModel = getViewModel {
             val moviesRepository = MoviesRepository(
                 RoomDataSource(app.db),
                 TheMovieDbDataSource(),
@@ -54,8 +51,10 @@ class DetailFragment : Fragment() {
                 FindMovieById(moviesRepository),
                 ToggleMovieFavorite(moviesRepository)
             )
-        }
+        }*/
 
+        Log.i("DetailFragment", "ANDROID ${args.id}")
+        Log.i("DetailFragment", "ANDROID 2 ${activity?.intent?.getIntExtra(DetailFragment.MOVIE, -1)}")
         binding?.apply {
             viewmodel = viewModel
             lifecycleOwner = this@DetailFragment
