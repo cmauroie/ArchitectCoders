@@ -1,5 +1,6 @@
 package com.developerideas.myapplication.ui.favorite
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.developerideas.domain.Movie
@@ -9,7 +10,7 @@ import com.developerideas.usecases.DeleteFavoritesMovies
 import com.developerideas.usecases.GetFavoritesMovies
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel(
+class FavoriteViewModel @ViewModelInject constructor(
     private val getFavoritesMovies: GetFavoritesMovies,
     private val deleteFavoritesMovies: DeleteFavoritesMovies
 ) : ScopedViewModel() {

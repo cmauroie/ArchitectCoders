@@ -1,5 +1,6 @@
 package com.developerideas.myapplication.ui.main
 
+import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.developerideas.domain.Movie
@@ -9,7 +10,7 @@ import com.developerideas.myapplication.databinding.ViewMovieBinding
 import com.developerideas.myapplication.ui.common.basicDiffUtil
 import com.developerideas.myapplication.ui.common.bindingInflate
 
-class MoviesAdapter(private val listener: (Movie) -> Unit) :
+class MoviesAdapter(private val context: Context, private val listener: (Movie) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     var movies: List<Movie> by basicDiffUtil(
         emptyList(),
@@ -29,6 +30,12 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
         val average = movie.voteAverage / 2 //score is between 0 and 10
         holder.dataBinding.average = average.toFloat()
         holder.itemView.setOnClickListener { listener(movie) }
+
+        if (movie.favorite) {
+            holder.dataBinding.imgHeart.setImageDrawable(context.getDrawable(R.drawable.icon_heart_enable))
+        } else {
+            holder.dataBinding.imgHeart.setImageDrawable(context.getDrawable(R.drawable.icon_heart_disable))
+        }
     }
 
     class ViewHolder(val dataBinding: ViewMovieBinding) : RecyclerView.ViewHolder(dataBinding.root) {

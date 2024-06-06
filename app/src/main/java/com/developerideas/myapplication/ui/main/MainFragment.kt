@@ -69,15 +69,17 @@ class MainFragment : Fragment() {
             }
         })
 
-        adapter = MoviesAdapter(viewModel::onMovieClicked)
+        adapter = MoviesAdapter(requireContext(), viewModel::onMovieClicked)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         binding?.apply {
             recycler.adapter = adapter
             viewmodel = viewModel
             lifecycleOwner = this@MainFragment
         }
-
-
     }
 
     /*private fun updateUi(model: UiModel) {

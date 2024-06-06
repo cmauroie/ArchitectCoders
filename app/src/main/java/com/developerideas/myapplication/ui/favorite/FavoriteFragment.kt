@@ -5,27 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.developerideas.data.repository.MoviesRepository
-import com.developerideas.data.repository.RegionRepository
-import com.developerideas.domain.Movie
+//import com.developerideas.data.repository.MoviesRepository
+//import com.developerideas.data.repository.RegionRepository
+//import com.developerideas.domain.Movie
 import com.developerideas.myapplication.R
 import com.developerideas.myapplication.databinding.FragmentFavoriteBinding
-import com.developerideas.myapplication.model.AndroidPermissionChecker
-import com.developerideas.myapplication.model.PlayServicesLocationDataSource
-import com.developerideas.myapplication.model.database.RoomDataSource
-import com.developerideas.myapplication.model.server.TheMovieDbDataSource
-import com.developerideas.myapplication.ui.common.Event
+//import com.developerideas.myapplication.model.AndroidPermissionChecker
+//import com.developerideas.myapplication.model.PlayServicesLocationDataSource
+//import com.developerideas.myapplication.model.database.RoomDataSource
+//import com.developerideas.myapplication.model.server.TheMovieDbDataSource
+//import com.developerideas.myapplication.ui.common.Event
 import com.developerideas.myapplication.ui.common.Event.EventObserver
-import com.developerideas.myapplication.ui.common.app
+//import com.developerideas.myapplication.ui.common.app
 import com.developerideas.myapplication.ui.common.bindingInflate
-import com.developerideas.myapplication.ui.common.getViewModel
-import com.developerideas.usecases.DeleteFavoritesMovies
-import com.developerideas.usecases.GetFavoritesMovies
+import dagger.hilt.android.AndroidEntryPoint
 
+//import com.developerideas.myapplication.ui.common.getViewModel
+//import com.developerideas.myapplication.ui.main.MainViewModel
+//import com.developerideas.usecases.DeleteFavoritesMovies
+//import com.developerideas.usecases.GetFavoritesMovies
+
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
     private var binding: FragmentFavoriteBinding? = null
-    private lateinit var viewModel : FavoriteViewModel
+    private val viewModel: FavoriteViewModel by viewModels()
     private val movieAdapter = FavoriteAdapter{
         viewModel.removeFavorite(it)
     }
@@ -44,7 +49,7 @@ class FavoriteFragment : Fragment() {
         binding?.toolbar?.setNavigationIcon(R.drawable.ic_back_arrow)
         binding?.toolbar?.setNavigationOnClickListener { activity?.onBackPressed() }
 
-        viewModel = getViewModel {
+        /*viewModel = getViewModel {
             val localDataSource = RoomDataSource(app.db)
             FavoriteViewModel(
                     GetFavoritesMovies(
@@ -69,7 +74,7 @@ class FavoriteFragment : Fragment() {
                     )
                 )
             )
-        }
+        }*/
 
         binding?.apply {
             recycler.adapter = movieAdapter
